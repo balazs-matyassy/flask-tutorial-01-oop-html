@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Cookbook</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cookbook.css') }}">
+</head>
+<body>
+
+<table id="container">
+    <tr>
+        <td colspan="2" id="logo">
+            <img src="{{ url_for('static', filename='img/pizza.jpg') }}" alt="pizza">
+            <h1>Flask Cookbook</h1>
+            <hr>
+        </td>
+    </tr>
+    <tr>
+        <td id="menu">
+            <ul>
+                <li><a href="{{ url_for('list_all') }}">Recipes</a></li>
+            </ul>
+        </td>
+        <td id="search">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" id="main">
+            <hr>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <h3>{{ message }}</h3>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <h1>Recipes</h1>
+
+            <table class="list">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Category</th>
+                    <th>Name</th>
+                    <th>Difficulty</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for recipe in recipes %}
+                    <tr>
+                        <td>{{ recipe.recipe_id }}</td>
+                        <td>{{ recipe.category }}</td>
+                        <td>{{ recipe.name }}</td>
+                        <td>
+                            {{ '★' * recipe.difficulty }}{{ '☆' * (5 - recipe.difficulty) }}
+                            ({{ recipe.difficulty_description }})
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
